@@ -78,3 +78,20 @@ def test_msg_asyncio_str_is_url(capfd):
     assert out.replace('\n', '') == correct.replace('\n', ''), (
         f'Проверьте, что функция {name} сообщает что ссылка не корректная'
     )
+
+
+def test_asyncio_main(capsys):
+    """
+    Проверка вывода сообщений asyncio_main
+    """
+    from cli import cli_asyncio
+    from cli import msg
+    import io
+    import sys
+    sys.stdin = io.StringIO('stop\n')
+    cli_asyncio.main()
+    out, err = capsys.readouterr()
+    h = msg.msg_1()
+    x = '\n'.join(h) + '\n'
+    assert err == ''
+    assert out == x

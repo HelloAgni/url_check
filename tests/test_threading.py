@@ -33,6 +33,21 @@ def test_threading_str_is_url():
     )
 
 
+def test_msg_threading_str_is_url(capfd):
+    """
+    Проверка вывода сообщения функции threading.str_is_url
+    """
+    from cli import cli_threading, msg
+    line = ''
+    cli_threading.str_is_url(line=line)
+    correct = msg.msg_2(line=line)
+    name = cli_threading.str_is_url.__name__
+    out, err = capfd.readouterr()
+    assert out.replace('\n', '') == correct.replace('\n', ''), (
+        f'Проверьте, что функция {name} сообщает что ссылка не корректная'
+    )
+
+
 def test_threading_check_url():
     """
     Проверка threading.check_url возвращает корректный тип данных
@@ -59,3 +74,20 @@ def test_thread():
     assert isinstance(res, dict), (
         f'Проверьте, что функция {name} возвращает словарь'
     )
+
+
+def test_threading_main(capsys):
+    """
+    Проверка вывода сообщений threading_main
+    """
+    from cli import cli_threading
+    from cli import msg
+    import io
+    import sys
+    sys.stdin = io.StringIO('stop\n')
+    cli_threading.main()
+    out, err = capsys.readouterr()
+    h = msg.msg_1()
+    x = '\n'.join(h) + '\n'
+    assert err == ''
+    assert out == x
