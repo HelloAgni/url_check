@@ -32,7 +32,7 @@ python -m venv venv
 # Linux
 . venv/bin/activate
 python -m pip install --upgrade pip
-pip freeze -r for_venv/requirements.txt
+pip install -r for_venv/requirements.txt
 # Run any of these files:
 python cli/cli_asyncio.py
 python cli/cli_threading.py
@@ -46,4 +46,4 @@ start, stop, urls_test
 ```
 
 Dev time ~ 15 hours  
-percent_covered_display - 83%
+Coverage - 83%
