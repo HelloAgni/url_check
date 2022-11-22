@@ -49,3 +49,12 @@ def test_msg():
     assert type(msg.msg_3(line, n_strings)) == str, (
         f'Функция {msg.msg_3.__name__} должна возвращать строку'
     )
+
+
+def test_check_open():
+    """
+    Функция check_open возвращает корректный тип данных
+    """
+    from cli import check_open
+    result = check_open.url_reader()
+    assert isinstance(result, list)

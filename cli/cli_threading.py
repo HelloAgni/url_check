@@ -5,6 +5,8 @@ import threading
 import time
 
 import requests
+from check_open import url_reader
+from import_urls import my_dec
 from msg import msg_1, msg_2, msg_3
 
 requests_session = requests.Session()
@@ -16,6 +18,9 @@ HTTP_METHODS = [
 
 
 def str_is_url(line):
+    """
+    Валидация URL
+    """
     regex = re.compile(
             r'^(?:http|ftp)s?://'  # http:// or https://
             r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
@@ -30,11 +35,9 @@ def str_is_url(line):
 
 
 def check_url(n_strings, result):
-    # http_methods = [
-    #     req_session.get, req_session.post,
-    #     req_session.delete, req_session.put,
-    #     req_session.patch, req_session.options
-    #     ]
+    """
+    Проверка Http методов
+    """
     in_result = {}
     try:
         for method in HTTP_METHODS:
@@ -49,7 +52,8 @@ def check_url(n_strings, result):
     return result
 
 
-def thread(n_strings, result):
+@my_dec
+def thread(n_strings, result, **kwargs):
     tasks = []
     for i in range(len(n_strings)):
         tasks.append(threading.Thread(
@@ -58,25 +62,33 @@ def thread(n_strings, result):
         t.start()
     for t in tasks:
         t.join()
-    return result
+    return result, kwargs['start_time']
 
 
 def main():
+    """
+    CLI app на вход получает строки(y), проверяет их
+    на соответствие URL, собирает status_code каждого
+    Http метода, ввыводит результат в формате json
+    """
     result = {}
     print(*msg_1(), sep='\n')
     n_strings = []
     while True:
         line = sys.stdin.readline().rstrip()
         if line == 'start' and n_strings:
-            print('Проверка запущена...')
-            start_time = time.time()
-            thread(n_strings, result)
-            print(json.dumps(result, indent=4))
-            end_time = time.time()
-            run_time = end_time - start_time
+            items, start_time = thread(n_strings, result)
+            print(json.dumps(items, indent=4))
+            run_time = time.time() - start_time
             print(f'Время выполнения: {run_time:.7}c.')
         elif line == 'stop':
             break
+        elif line == 'urls_test':
+            n_strings = url_reader()
+            items, start_time = thread(n_strings, result)
+            print(json.dumps(items, indent=4))
+            run_time = time.time() - start_time
+            print(f'Время выполнения: {run_time:.7}c.')
         elif str_is_url(line):
             if line not in n_strings:
                 n_strings.append(line)

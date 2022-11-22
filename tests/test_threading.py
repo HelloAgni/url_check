@@ -71,8 +71,8 @@ def test_thread():
     n_strings = ['https://www.google.com', 'https://httpbin.org/post']
     res = cli_threading.thread(result=result, n_strings=n_strings)
     name = cli_threading.thread.__name__  # func.__qualname__
-    assert isinstance(res, dict), (
-        f'Проверьте, что функция {name} возвращает словарь'
+    assert isinstance(res, tuple), (
+        f'Проверьте, что функция {name} возвращает кортеж'
     )
 
 

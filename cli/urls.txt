@@ -1,0 +1,10 @@
+https://www.google.com
+https://reqbin.com
+https://google.com
+https://rapidapi.com/apicloud/api/facerect/
+https://rapidapi.com/thecocktaildb/api/the-cocktail-db/
+https://rapidapi.com/matchilling/api/chuck-norris
+https://rapidapi.com/matchilling/api/chuck-norris/details
+http://www.example.com/
+https://myallies-breaking-news-v1.p.rapidapi.com/GetTopNews
+https://httpbin.org/post

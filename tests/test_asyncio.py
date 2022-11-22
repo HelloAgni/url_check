@@ -31,8 +31,8 @@ async def test_async_execute():
     n_strings = ['https://www.google.com', 'https://httpbin.org/post']
     cor = await cli_asyncio.async_execute(result=result, n_strings=n_strings)
     name = cli_asyncio.async_execute.__name__  # func.__qualname__
-    assert isinstance(cor, dict), (
-        f'Проверьте, что функция {name} возвращает словарь'
+    assert isinstance(cor, tuple), (
+        f'Проверьте, что функция {name} возвращает кортеж'
     )
 
 

@@ -1,4 +1,7 @@
 def url_reader():
+    """
+    Auto import urls from file.txt -> in active CLI
+    """
     try:
         import pathlib
         import sys
