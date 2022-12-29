@@ -1,12 +1,16 @@
+import io
+import sys
 import types
+
 import pytest
+
+from cli import cli_asyncio, msg
 
 
 def test_asyncio_exists():
     """
     Проверка наличия функций new_asyncio
-    """
-    from cli import cli_asyncio
+    """    
     assert isinstance(cli_asyncio.str_is_url, types.FunctionType), (
         f'{cli_asyncio.str_is_url.__name__} должна быть функцией'
     )
@@ -25,8 +29,7 @@ def test_asyncio_exists():
 async def test_async_execute():
     """
     Проверка async_execute возвращает корректный тип данных
-    """
-    from cli import cli_asyncio
+    """    
     result = {}
     n_strings = ['https://www.google.com', 'https://httpbin.org/post']
     cor = await cli_asyncio.async_execute(result=result, n_strings=n_strings)
@@ -40,8 +43,7 @@ async def test_async_execute():
 async def test_asyncio_check_url():
     """
     Проверка asyncio.check_url возвращает корректный тип данных
-    """
-    from cli import cli_asyncio
+    """    
     result = {}
     n_strings = 'https://www.google.com'
     cor = await cli_asyncio.check_url(n_strings=n_strings, result=result)
@@ -55,8 +57,7 @@ async def test_asyncio_check_url():
 def test_asyncio_str_is_url():
     """
     Проверка asyncio.str_is_url возвращает корректный тип данных
-    """
-    from cli import cli_asyncio
+    """    
     line = 'https://www.google.com'
     result = cli_asyncio.str_is_url(line=line)
     name = cli_asyncio.str_is_url.__name__
@@ -68,8 +69,7 @@ def test_asyncio_str_is_url():
 def test_msg_asyncio_str_is_url(capfd):
     """
     Проверка вывода сообщения функции asyncio.str_is_url
-    """
-    from cli import cli_asyncio, msg
+    """    
     line = ''
     cli_asyncio.str_is_url(line=line)
     correct = msg.msg_2(line=line)
@@ -84,10 +84,6 @@ def test_asyncio_main(capsys):
     """
     Проверка вывода сообщений asyncio_main
     """
-    from cli import cli_asyncio
-    from cli import msg
-    import io
-    import sys
     sys.stdin = io.StringIO('stop\n')
     cli_asyncio.main()
     out, err = capsys.readouterr()

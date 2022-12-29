@@ -1,11 +1,14 @@
+import io
+import sys
 import types
+
+from cli import cli_threading, msg
 
 
 def test_threading_exists():
     """
     Проверка наличия функций new_threading
     """
-    from cli import cli_threading
     assert isinstance(cli_threading.str_is_url, types.FunctionType), (
         f'{cli_threading.str_is_url.__name__} должна быть функцией'
     )
@@ -24,7 +27,6 @@ def test_threading_str_is_url():
     """
     Проверка threading.str_is_url возвращает корректный тип данных
     """
-    from cli import cli_threading
     line = 'https://www.google.com'
     result = cli_threading.str_is_url(line=line)
     name = cli_threading.str_is_url.__name__
@@ -37,7 +39,6 @@ def test_msg_threading_str_is_url(capfd):
     """
     Проверка вывода сообщения функции threading.str_is_url
     """
-    from cli import cli_threading, msg
     line = ''
     cli_threading.str_is_url(line=line)
     correct = msg.msg_2(line=line)
@@ -52,7 +53,6 @@ def test_threading_check_url():
     """
     Проверка threading.check_url возвращает корректный тип данных
     """
-    from cli import cli_threading
     result = {}
     n_strings = 'https://www.google.com'
     res = cli_threading.check_url(n_strings=n_strings, result=result)
@@ -66,7 +66,6 @@ def test_thread():
     """
     Проверка thread возвращает корректный тип данных
     """
-    from cli import cli_threading
     result = {}
     n_strings = ['https://www.google.com', 'https://httpbin.org/post']
     res = cli_threading.thread(result=result, n_strings=n_strings)
@@ -80,10 +79,6 @@ def test_threading_main(capsys):
     """
     Проверка вывода сообщений threading_main
     """
-    from cli import cli_threading
-    from cli import msg
-    import io
-    import sys
     sys.stdin = io.StringIO('stop\n')
     cli_threading.main()
     out, err = capsys.readouterr()

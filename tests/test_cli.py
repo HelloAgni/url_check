@@ -1,30 +1,24 @@
+from cli import check_win, msg, check_open
+
+
 def test_files():
     """
     Проверка наличия файлов
     """
     try:
-        from cli import cli_asyncio
-    except ModuleNotFoundError:
-        assert False, f'Не найден файл {cli_asyncio.__name__}'
-    try:
-        from cli import cli_threading
-    except ModuleNotFoundError:
-        assert False, f'Не найден файл {cli_threading.__name__}'
-    try:
-        from cli import msg
-    except ModuleNotFoundError:
-        assert False, f'Не найден файл {msg.__name__}'
-    try:
-        from cli import check_win
-    except ModuleNotFoundError:
-        assert False, f'Не найден файл {check_win.__name__}'
+        from cli import cli_asyncio, cli_threading, msg, check_win
+    except ImportError as e:
+        assert False, f'Не найден файл {e}'
+    # try:
+    #     from cli import check_win
+    # except ModuleNotFoundError:
+    #     assert False, f'Не найден файл {check_win.__name__}'
 
 
 def test_check_win():
     """
     Функция проверки OS возвращает корректный тип данных
     """
-    from cli import check_win
     win = check_win.check_win()
     name = check_win.check_win.__name__
     assert isinstance(win, bool), (
@@ -37,7 +31,6 @@ def test_msg():
     """
     Сообщения возвращают корректный тип данных
     """
-    from cli import msg
     line = 'https://www.google.com'
     n_strings = ['https://www.google.com', 'https://httpbin.org/post']
     assert type(msg.msg_1()) == list, (
@@ -55,6 +48,5 @@ def test_check_open():
     """
     Функция check_open возвращает корректный тип данных
     """
-    from cli import check_open
     result = check_open.url_reader()
     assert isinstance(result, list)
